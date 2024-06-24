@@ -2,9 +2,10 @@ public class Cheese { ;
     private int id;
     private String name;
     private double price;
-    private int quantity;
+    private double quantity;
+    private double boughtQuantity;
 
-    public Cheese(int id, String name, double price, int quantity){
+    public Cheese(int id, String name, double price, double quantity){
         this.id = id;
         this.name = name;
         this.price = price;
@@ -25,10 +26,16 @@ public class Cheese { ;
     public double getPrice() {
         return price;
     }
-    public void setQuantity(int quantity) {
+    public void setQuantity(double quantity) {
         this.quantity = quantity;
     }
-    public int getQuantity() {
+    public double getQuantity() {
         return quantity;
+    }
+    public void setBoughtQuantity(double boughtQuantity) {
+        this.boughtQuantity = boughtQuantity;
+    }
+    public double getBoughtQuantity() {
+        return boughtQuantity;
     }
 }

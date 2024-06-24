@@ -33,26 +33,26 @@ public class CheeseShop {
             System.out.println("Cheese with ID " + id + " not found");
         }
     }
-//
-//    public void updateCheese(int id, String name, double price) {
-//        for (Cheese cheese : cheeseList) {
-//            if (cheese.getId() == id) {
-//                cheese.setName(name);
-//                cheese.setPrice(price);
-//                return;
-//            }
-//        }
-//    }
-//    public boolean addCheeseToCart(int id) {
-//        for (Cheese cheese : cheeseList) {
-//            if (cheese.getId() == id) {
-//                cart.add(cheese);
-//                System.out.println("Cheese " + cheese + " added to cart");
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
+
+    public void updateCheese(int id, String name, double price, double quantity) {
+        for (Cheese cheese : cheeseList) {
+            if (cheese.getId() == id) {
+                cheese.setName(name);
+                cheese.setPrice(price);
+                cheese.setQuantity(quantity);
+                return;
+            }
+        }
+    }
+    public boolean addCheeseToCart(int id, double boughtQuantity) {
+        for (Cheese cheese : cheeseList) {
+            if (cheese.getId() == id) {
+                cart.add(cheese);
+                return true;
+            }
+        }
+        return false;
+    }
 //    public boolean removeCheeseFromCart(int id) {
 //        for (Cheese cheese : cheeseList) {
 //            if (cheese.getId() == id) {
@@ -68,9 +68,14 @@ public class CheeseShop {
 //            System.out.println("ID: " + cheese.getId() + "\nName: " + cheese.getName() + "\nPrice: " + cheese.getPrice());
 //        }
 //    }
-//    public void printCart() {
-//        for (Cheese cheese : cart) {
-//            System.out.println("ID: " + cheese.getId() + "\nName: " + cheese.getName() + "\nPrice: " + cheese.getPrice());
-//        }
-//    }
+    public void printCart() {
+        if (cart.isEmpty()) {
+            System.out.println("You cart is empty");
+        } else {
+            for (Cheese cheese : cart) {
+                System.out.println("Your cart: ");
+                System.out.println("ID: " + cheese.getId() + " Name: " + cheese.getName() + " Price per kg: " + cheese.getPrice() + " Quantity: " + cheese.getBoughtQuantity() + " kg");
+            }
+        }
+    }
 }
