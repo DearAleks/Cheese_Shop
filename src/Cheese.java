@@ -30,12 +30,12 @@ public class Cheese { ;
         this.quantity = quantity;
     }
     public double getQuantity() {
-        return quantity;
+        return Double.parseDouble(String.format("%.2f", quantity));
     }
 
     @Override
     public String toString() {
-        return "ID: " + id + " / Name: " + name + " / Price per kg: " + price + " / Quantity: " + quantity + " kg";
+        return "ID: " + id + " / Name: " + name + " / Price per kg: " + price + " / Quantity: " + getQuantity() + " kg";
     }
 }
 

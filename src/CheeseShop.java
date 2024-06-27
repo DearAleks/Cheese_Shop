@@ -99,6 +99,7 @@ public class CheeseShop {
             System.out.println(cheese);
         }
     }
+
     public void printCart() {
         if (cart.isEmpty()) {
             System.out.println("Your cart is empty");
