@@ -5,22 +5,31 @@
 4. get all the cheeses from the cart or available cheeses in the store
  */
 
+import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.math.BigDecimal;
+
 public class CheeseShop {
-    private ArrayList<Cheese> cheeseList = new ArrayList<Cheese>();
-    private ArrayList<Cheese> cart = new ArrayList<Cheese>();
+    private ArrayList<Cheese> cheeseList = new ArrayList<>();
+    private ArrayList<Cheese> cart = new ArrayList<>();
 
     public ArrayList<Cheese> getCheeseList() {
         return cheeseList;
     }
-    public ArrayList<Cheese> getCart() {
-        return cart;
-    }
+
     public void addCheeseToShop(Cheese cheese) {
+        for (Cheese cheeseInInventory : cheeseList) {
+            if (cheeseInInventory.getId() == cheese.getId()) {
+                System.out.println("Cheese with ID " + cheese.getId() + " already exists in the inventory.");
+                return;
+            }
+        }
         cheeseList.add(cheese);
+        System.out.println("Cheese with the ID " + cheese.getId() + " added to the inventory.");
     }
+
     public void removeCheeseFromShop(int id) {
-        ArrayList<Cheese> found = new ArrayList<Cheese>();
+        ArrayList<Cheese> found = new ArrayList<>();
         for (Cheese cheese : cheeseList) {
             if (cheese.getId() == id) {
                 found.add(cheese);
@@ -46,36 +55,72 @@ public class CheeseShop {
     }
     public boolean addCheeseToCart(int id, double boughtQuantity) {
         for (Cheese cheese : cheeseList) {
-            if (cheese.getId() == id) {
-                cart.add(cheese);
+            if (cheese.getId() == id && cheese.getQuantity() >= boughtQuantity) {
+                Cheese cheeseToCart = new Cheese(cheese.getId(), cheese.getName(), cheese.getPrice(), boughtQuantity);
+                cheeseToCart.setQuantity(boughtQuantity);
+                cheese.setQuantity(cheese.getQuantity() - boughtQuantity);
+                cart.add(cheeseToCart);
                 return true;
             }
         }
         return false;
     }
-//    public boolean removeCheeseFromCart(int id) {
-//        for (Cheese cheese : cheeseList) {
-//            if (cheese.getId() == id) {
-//                cart.remove(cheese);
-//                System.out.println("Cheese " + cheese + " removed from cart");
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
-//    public void printCheeseList() {
-//        for (Cheese cheese : cheeseList) {
-//            System.out.println("ID: " + cheese.getId() + "\nName: " + cheese.getName() + "\nPrice: " + cheese.getPrice());
-//        }
-//    }
-    public void printCart() {
-        if (cart.isEmpty()) {
-            System.out.println("You cart is empty");
-        } else {
-            for (Cheese cheese : cart) {
-                System.out.println("Your cart: ");
-                System.out.println("ID: " + cheese.getId() + " Name: " + cheese.getName() + " Price per kg: " + cheese.getPrice() + " Quantity: " + cheese.getBoughtQuantity() + " kg");
+
+    public void removeCheeseFromCart(int id) {
+        boolean foundInCart = false;
+        Cheese cheeseToRemove = null;
+
+        for (Cheese cheese : cart) {
+            if (cheese.getId() == id) {
+                cheeseToRemove = cheese;
+                foundInCart = true;
+                break;
             }
         }
+            if (foundInCart) {
+                double quantityToAddToInventory = cheeseToRemove.getQuantity();
+                cart.remove(cheeseToRemove);
+                System.out.println("Removed cheese with ID " + id + " from the cart.");
+
+                for (Cheese cheese : cheeseList) {
+                    if (cheese.getId() == id) {
+                        cheese.setQuantity(cheese.getQuantity() + quantityToAddToInventory);
+                        break;
+                    }
+                }
+            } else {
+                System.out.println("Cheese with ID " + id + " not found in the cart.");
+            }
+    }
+
+    public void printCheeseList() {
+        System.out.println("Cheeses in the inventory: ");
+        for (Cheese cheese : cheeseList){
+            System.out.println(cheese);
+        }
+    }
+    public void printCart() {
+        if (cart.isEmpty()) {
+            System.out.println("Your cart is empty");
+        } else {
+            System.out.println("Items in your cart: ");
+            for (Cheese cheese : cart) {
+                System.out.println(cheese);
+            }
+        }
+    }
+
+    public BigDecimal checkout() {
+        double totalCost = 0.0d;
+        BigDecimal roundedTotalCost = null;
+        for (Cheese cheese : cart) {
+            totalCost += cheese.getQuantity() * cheese.getPrice();
+            roundedTotalCost = new BigDecimal(totalCost).setScale(2, RoundingMode.HALF_UP);
+        }
+        return roundedTotalCost;
+    }
+
+    public void clearCart() {
+        cart.clear();
     }
 }

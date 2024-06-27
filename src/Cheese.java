@@ -3,7 +3,7 @@ public class Cheese { ;
     private String name;
     private double price;
     private double quantity;
-    private double boughtQuantity;
+
 
     public Cheese(int id, String name, double price, double quantity){
         this.id = id;
@@ -32,10 +32,11 @@ public class Cheese { ;
     public double getQuantity() {
         return quantity;
     }
-    public void setBoughtQuantity(double boughtQuantity) {
-        this.boughtQuantity = boughtQuantity;
-    }
-    public double getBoughtQuantity() {
-        return boughtQuantity;
+
+    @Override
+    public String toString() {
+        return "ID: " + id + " / Name: " + name + " / Price per kg: " + price + " / Quantity: " + quantity + " kg";
     }
 }
+
+
